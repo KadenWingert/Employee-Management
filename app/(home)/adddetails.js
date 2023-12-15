@@ -50,7 +50,7 @@ const adddetails = () => {
       })
       .catch((error) => {
         Alert.alert(
-          "Registration Fail",
+          "Registration Failed",
           "An error occurred during registration"
         );
         console.log("register failed", error);
@@ -71,7 +71,7 @@ const adddetails = () => {
             marginTop: 10,
             borderRadius: 5,
           }}
-          placeholder="India"
+          placeholder="United States"
           placeholderTextColor={"black"}
         />
 
