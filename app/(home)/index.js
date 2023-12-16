@@ -60,6 +60,7 @@ const index = () => {
               </Text>
             </Pressable>
             <Pressable
+              onPress={() => router.push("/(home)/markattendance")}
               style={{
                 backgroundColor: "#D3CCE3",
                 padding: 12,
@@ -124,7 +125,7 @@ const index = () => {
               </View>
               <Text
                 style={{
-                  marginLeft: "10",
+                  marginLeft: 10,
                   fontWeight: 16,
                   fontWeight: "600",
                   flex: 1,
@@ -170,7 +171,7 @@ const index = () => {
               </View>
               <Text
                 style={{
-                  marginLeft: "10",
+                  marginLeft: 10,
                   fontWeight: 16,
                   fontWeight: "600",
                   flex: 1,
@@ -216,7 +217,7 @@ const index = () => {
               </View>
               <Text
                 style={{
-                  marginLeft: "10",
+                  marginLeft: 10,
                   fontWeight: 16,
                   fontWeight: "600",
                   flex: 1,
@@ -262,7 +263,7 @@ const index = () => {
               </View>
               <Text
                 style={{
-                  marginLeft: "10",
+                  marginLeft: 10,
                   fontWeight: 16,
                   fontWeight: "600",
                   flex: 1,
@@ -318,7 +319,7 @@ const index = () => {
                   color="black"
                 />
               </View>
-              <Text style={{ marginTop: "7" }}>Attendance Criteria</Text>
+              <Text style={{ marginTop: 7 }}>Attendance Criteria</Text>
             </View>
             <View
               style={{
@@ -342,7 +343,7 @@ const index = () => {
               >
                 <Feather name="bar-chart" size={24} color="black" />
               </View>
-              <Text style={{ marginTop: "7" }}>Increased Workflow</Text>
+              <Text style={{ marginTop: 7 }}>Increased Workflow</Text>
             </View>
           </View>
           <View
@@ -379,7 +380,7 @@ const index = () => {
                   color="black"
                 />
               </View>
-              <Text style={{ marginTop: "7" }}>Cost Savings</Text>
+              <Text style={{ marginTop: 7 }}>Cost Savings</Text>
             </View>
             <View
               style={{
@@ -403,7 +404,7 @@ const index = () => {
               >
                 <Feather name="bar-chart" size={24} color="black" />
               </View>
-              <Text style={{ marginTop: "7" }}>Employee Performance</Text>
+              <Text style={{ marginTop: 7 }}>Employee Performance</Text>
             </View>
           </View>
         </View>

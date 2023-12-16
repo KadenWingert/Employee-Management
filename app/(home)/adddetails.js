@@ -50,7 +50,7 @@ const adddetails = () => {
       })
       .catch((error) => {
         Alert.alert(
-          "Registration Failed",
+          "Registration Fail",
           "An error occurred during registration"
         );
         console.log("register failed", error);
@@ -249,4 +249,3 @@ const adddetails = () => {
 
 export default adddetails;
 
-const styles = StyleSheet.create({});

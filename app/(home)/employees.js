@@ -4,7 +4,7 @@ import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-// import SearchResults from "../../components/SearchResults";
+import SearchResults from "../../components/SearchResults";
 
 const employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -73,8 +73,9 @@ const employees = () => {
         </Pressable>
       </View>
 
-
-
+      {employees.length > 0 ? (
+        <SearchResults data={employees} input={input} setInput={setInput} />
+      ) : (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
@@ -89,28 +90,8 @@ const employees = () => {
             />
           </Pressable>
         </View>
+      )}
     </View>
-
-    //       {employees.length > 0 ? (
-    //     <SearchResults data={employees} input={input} setInput={setInput} />
-    //   ) : (
-    //     <View
-    //       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-    //     >
-    //       <Text>No Data</Text>
-    //       <Text>Press on the plus button and add your Employee</Text>
-    //       <Pressable onPress={() => router.push("/(home)/adddetails")}>
-    //         <AntDesign
-    //           style={{ marginTop: 30 }}
-    //           name="pluscircle"
-    //           size={24}
-    //           color="black"
-    //         />
-    //       </Pressable>
-    //     </View>
-    //   )}
-
-
   );
 };
 
