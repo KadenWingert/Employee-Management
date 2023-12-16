@@ -12,6 +12,7 @@ import moment from "moment";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 
 const user = () => {
@@ -54,6 +55,13 @@ const user = () => {
   };
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
+      <Ionicons
+        style={{ position: "absolute", top: 10, left: 10 }}
+        onPress={() => router.back()}
+        name="arrow-back"
+        size={24}
+        color="black"
+      />
       <View
         style={{
           flexDirection: "row",
@@ -61,7 +69,7 @@ const user = () => {
           gap: 10,
           marginLeft: "auto",
           marginRight: "auto",
-          marginVertical: 20,
+          marginVertical: 10,
         }}
       >
         <AntDesign onPress={goToPrevDay} name="left" size={24} color="black" />

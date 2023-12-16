@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 const markattendance = () => {
@@ -64,6 +65,13 @@ const markattendance = () => {
   });
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
+      <Ionicons
+        style={{ position: "absolute", top: 10, left: 10 }}
+        onPress={() => router.back()}
+        name="arrow-back"
+        size={24}
+        color="black"
+      />
       <Pressable>
         <View
           style={{
@@ -72,7 +80,7 @@ const markattendance = () => {
             gap: 10,
             marginLeft: "auto",
             marginRight: "auto",
-            marginVertical: 20,
+            marginVertical: 10,
           }}
         >
           <AntDesign

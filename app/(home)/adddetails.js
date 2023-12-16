@@ -9,8 +9,12 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const adddetails = () => {
+  const router = useRouter();
+
   const [name, setName] = useState("");
   const [employeeId, setEmployeeId] = useState("");
   const [dob, setDob] = useState("");
@@ -19,6 +23,7 @@ const adddetails = () => {
   const [salary, setSalary] = useState("");
   const [address, setAddress] = useState("");
   const [designation, setDesignation] = useState("");
+
   const handleRegister = () => {
     const employeeData = {
       employeeName: name,
@@ -49,6 +54,7 @@ const adddetails = () => {
         setDesignation("");
       })
       .catch((error) => {
+        console.log(employeeData);
         Alert.alert(
           "Registration Fail",
           "An error occurred during registration"
@@ -59,10 +65,20 @@ const adddetails = () => {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ padding: 10 }}>
-        <Text style={{ fontSize: 17, fontWeight: "bold" }}>
-          Add a New Employee
-        </Text>
-
+        <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+          <Ionicons
+            onPress={() => router.back()}
+            name="arrow-back"
+            size={24}
+            color="black"
+          />
+          <View style={{flex:1, alignItems:"center", marginRight:10}}>
+            <Text style={{ fontSize: 25, fontWeight: "bold" }}>
+              Add a New Employee
+            </Text>
+          </View>
+        </View>
+        <Text style={{ fontSize: 17, fontWeight: "bold" }}>Country</Text>
         <TextInput
           style={{
             padding: 10,
@@ -248,4 +264,3 @@ const adddetails = () => {
 };
 
 export default adddetails;
-
