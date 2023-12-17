@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useLocalSearchParams } from "expo-router";
+import { useRouter } from "expo-router";
 import moment from "moment";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -16,6 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 
 const user = () => {
+  const router = useRouter();
   const params = useLocalSearchParams();
   const [attendanceStatus, setAttendanceStatus] = useState("present");
   const [currentDate, setCurrentDate] = useState(moment());

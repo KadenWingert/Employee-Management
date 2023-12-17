@@ -3,13 +3,13 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 const markattendance = () => {
   const router = useRouter();
-  const [currentDate, setCurrentDate] = useState(moment());
 
+  const [currentDate, setCurrentDate] = useState(moment());
   const goToNextDay = () => {
     const nextDate = moment(currentDate).add(1, "days");
     setCurrentDate(nextDate);
@@ -66,12 +66,13 @@ const markattendance = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <Ionicons
-        style={{ position: "absolute", top: 10, left: 10 }}
         onPress={() => router.back()}
+        style={{ marginLeft: 10,marginTop:10, position:"absolute", zIndex:1}}
         name="arrow-back"
         size={24}
         color="black"
       />
+
       <Pressable>
         <View
           style={{
