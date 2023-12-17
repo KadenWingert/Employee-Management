@@ -9,10 +9,7 @@ const index = () => {
   const router = useRouter();
   return (
     <ScrollView>
-      <LinearGradient
-        colors={["#7F7FD5", "#E9E4F0"]}
-        style={{ height: "150%" }}
-      >
+      <LinearGradient colors={["f3e7e9", "#e3eeff"]} style={{ height: "150%" }}>
         <View style={{ padding: 12 }}>
           <View
             style={{
@@ -22,7 +19,7 @@ const index = () => {
             }}
           >
             <Feather name="bar-chart" size={24} color="black" />
-            <Text style={{ fontSize: 16, fontWeight: "600" }}>
+            <Text style={{ fontSize: 20, fontWeight: "600" }}>
               Employee Managament System
             </Text>
             <Entypo name="lock" size={24} color="black" />
@@ -39,7 +36,7 @@ const index = () => {
             <Pressable
               onPress={() => router.push("/(home)/employees")}
               style={{
-                backgroundColor: "#D3CCE3",
+                backgroundColor: "#ffdde1",
                 padding: 12,
                 borderRadius: 6,
                 alignItems: "center",
@@ -66,7 +63,7 @@ const index = () => {
             <Pressable
               onPress={() => router.push("/(home)/markattendance")}
               style={{
-                backgroundColor: "#D3CCE3",
+                backgroundColor: "#ffdde1",
                 padding: 12,
                 borderRadius: 6,
                 alignItems: "center",
@@ -94,7 +91,7 @@ const index = () => {
           <View
             style={{
               marginTop: 20,
-              backgroundColor: "white",
+              backgroundColor: "#fff",
               paddingHorizontal: 10,
               paddingVertical: 10,
               borderRadius: 7,
@@ -104,7 +101,7 @@ const index = () => {
             <Pressable
               onPress={() => router.push("/(home)/summary")}
               style={{
-                backgroundColor: "#BE93C5",
+                backgroundColor: "#F2F2F2",
                 borderRadius: 6,
                 padding: 20,
                 flexDirection: "row",
@@ -151,7 +148,7 @@ const index = () => {
             <Pressable
               onPress={() => router.push("/(home)/generateReports")}
               style={{
-                backgroundColor: "#BE93C5",
+                backgroundColor: "#F2F2F2",
                 borderRadius: 6,
                 padding: 20,
                 flexDirection: "row",
@@ -197,7 +194,7 @@ const index = () => {
             </Pressable>
             <Pressable
               style={{
-                backgroundColor: "#BE93C5",
+                backgroundColor: "#F2F2F2",
                 borderRadius: 6,
                 padding: 20,
                 flexDirection: "row",
