@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ScrollView, Pressable } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Feather, Entypo, Ionicons, Octicons } from "@expo/vector-icons";
@@ -9,7 +9,10 @@ const index = () => {
   const router = useRouter();
   return (
     <ScrollView>
-      <LinearGradient colors={["#7f7fd5", "#e9e4f0"]} style={{ flex: 1 }}>
+      <LinearGradient
+        colors={["#7F7FD5", "#E9E4F0"]}
+        style={{ height: "150%" }}
+      >
         <View style={{ padding: 12 }}>
           <View
             style={{
@@ -20,16 +23,17 @@ const index = () => {
           >
             <Feather name="bar-chart" size={24} color="black" />
             <Text style={{ fontSize: 16, fontWeight: "600" }}>
-              Employee Management System
+              Employee Managament System
             </Text>
             <Entypo name="lock" size={24} color="black" />
           </View>
+
           <View
             style={{
               marginTop: 20,
               flexDirection: "row",
               alignItems: "center",
-              gap: "20",
+              gap: 20,
             }}
           >
             <Pressable
@@ -83,7 +87,7 @@ const index = () => {
                 <Ionicons name="ios-people-sharp" size={24} color="black" />
               </View>
               <Text style={{ marginTop: 7, fontWeight: "600" }}>
-                Mark Addendance
+                Mark Attendance
               </Text>
             </Pressable>
           </View>
@@ -94,6 +98,7 @@ const index = () => {
               paddingHorizontal: 10,
               paddingVertical: 10,
               borderRadius: 7,
+              flex: 1,
             }}
           >
             <Pressable
@@ -101,60 +106,10 @@ const index = () => {
               style={{
                 backgroundColor: "#BE93C5",
                 borderRadius: 6,
-                padding: 10,
+                padding: 20,
                 flexDirection: "row",
                 alignItems: "center",
-                marginVertical: 10,
-              }}
-            >
-              <View
-                style={{
-                  padding: 7,
-                  width: 45,
-                  height: 45,
-                  borderRadius: 7,
-                  backgroundColor: "white",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Ionicons
-                  name="ios-newspaper-outline"
-                  size={24}
-                  color="black"
-                />
-              </View>
-              <Text
-                style={{
-                  marginLeft: 10,
-                  fontWeight: 16,
-                  fontWeight: "600",
-                  flex: 1,
-                }}
-              >
-                Attendance Report
-              </Text>
-              <View
-                style={{
-                  width: 35,
-                  height: 35,
-                  borderRadius: 7,
-                  backgroundColor: "white",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Entypo name="chevron-right" size={24} color="black" />
-              </View>
-            </Pressable>
-            <Pressable
-              style={{
-                backgroundColor: "#BE93C5",
-                borderRadius: 6,
-                padding: 10,
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 10,
+                marginVertical: 15,
               }}
             >
               <View
@@ -173,12 +128,12 @@ const index = () => {
               <Text
                 style={{
                   marginLeft: 10,
-                  fontWeight: 16,
+                  fontSize: 16,
                   fontWeight: "600",
                   flex: 1,
                 }}
               >
-                Summary Report
+                Monthly Report
               </Text>
               <View
                 style={{
@@ -194,18 +149,19 @@ const index = () => {
               </View>
             </Pressable>
             <Pressable
+              onPress={() => router.push("/(home)/generateReports")}
               style={{
                 backgroundColor: "#BE93C5",
                 borderRadius: 6,
-                padding: 10,
+                padding: 20,
                 flexDirection: "row",
                 alignItems: "center",
-                marginVertical: 10,
+                marginVertical: 15,
               }}
             >
               <View
                 style={{
-                  padding: 7,
+                  padding: 10,
                   width: 45,
                   height: 45,
                   borderRadius: 7,
@@ -219,7 +175,7 @@ const index = () => {
               <Text
                 style={{
                   marginLeft: 10,
-                  fontWeight: 16,
+                  fontSize: 16,
                   fontWeight: "600",
                   flex: 1,
                 }}
@@ -243,10 +199,10 @@ const index = () => {
               style={{
                 backgroundColor: "#BE93C5",
                 borderRadius: 6,
-                padding: 10,
+                padding: 20,
                 flexDirection: "row",
                 alignItems: "center",
-                marginVertical: 10,
+                marginVertical: 15,
               }}
             >
               <View
@@ -265,7 +221,7 @@ const index = () => {
               <Text
                 style={{
                   marginLeft: 10,
-                  fontWeight: 16,
+                  fontSize: 16,
                   fontWeight: "600",
                   flex: 1,
                 }}
@@ -288,7 +244,8 @@ const index = () => {
           </View>
           <View
             style={{
-              marginTop: 20,
+              flex: 1,
+              marginTop: "5%",
               flexDirection: "row",
               alignItems: "center",
               gap: 12,
@@ -300,8 +257,8 @@ const index = () => {
                 borderRadius: 6,
                 padding: 12,
                 alignItems: "center",
-                flex: 1,
                 justifyContent: "center",
+                flex: 1,
               }}
             >
               <View
@@ -328,8 +285,8 @@ const index = () => {
                 borderRadius: 6,
                 padding: 12,
                 alignItems: "center",
-                flex: 1,
                 justifyContent: "center",
+                flex: 1,
               }}
             >
               <View
@@ -349,7 +306,7 @@ const index = () => {
           </View>
           <View
             style={{
-              marginTop: 20,
+              marginTop: "5%",
               flexDirection: "row",
               alignItems: "center",
               gap: 12,
@@ -361,8 +318,9 @@ const index = () => {
                 borderRadius: 6,
                 padding: 12,
                 alignItems: "center",
-                flex: 1,
+
                 justifyContent: "center",
+                flex: 1,
               }}
             >
               <View
@@ -385,12 +343,12 @@ const index = () => {
             </View>
             <View
               style={{
-                backgroundColor: "#BDC3C7",
+                backgroundColor: "#bdc3c7",
                 borderRadius: 6,
                 padding: 12,
                 alignItems: "center",
-                flex: 1,
                 justifyContent: "center",
+                flex: 1,
               }}
             >
               <View

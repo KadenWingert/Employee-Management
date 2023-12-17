@@ -4,19 +4,24 @@ import moment from "moment";
 import axios from "axios";
 import { AntDesign } from "@expo/vector-icons";
 import { DataTable } from "react-native-paper";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const summary = () => {
+  const router = useRouter();
   const [attendanceData, setAttendanceData] = useState([]);
   const [currentDate, setCurrentDate] = useState(moment());
 
   const goToNextMonth = () => {
     const nextMonth = moment(currentDate).add(1, "months");
     setCurrentDate(nextMonth);
+    console.log("NEXT MONTH: " + formatDate(nextMonth));
   };
 
   const goToPrevMonth = () => {
     const prevMonth = moment(currentDate).subtract(1, "months");
     setCurrentDate(prevMonth);
+        console.log("PREV MONTH: " + formatDate(prevMonth));
   };
 
   const formatDate = (date) => {
@@ -28,23 +33,36 @@ const summary = () => {
         `http://localhost:8000/attendance-report-all-employees`,
         {
           params: {
-            month: 11,
-            year: 2023,
+            month: currentDate.month()+1,
+            year: currentDate.year(),
           },
         }
       );
 
       setAttendanceData(respone.data.report);
     } catch (error) {
-      console.log("Error fetching attendance");
+      console.log("Error fetching attendance", error);
     }
   };
   useEffect(() => {
     fetchAttendanceReport();
-  }, []);
+  }, [currentDate]);
   console.log(attendanceData);
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
+      <Ionicons
+        onPress={() => router.back()}
+        style={{
+          marginLeft: 10,
+          marginTop: 10,
+          position: "absolute",
+          zIndex: 1,
+        }}
+        name="arrow-back"
+        size={24}
+        color="black"
+      />
+
       <View
         style={{
           flexDirection: "row",
@@ -52,7 +70,7 @@ const summary = () => {
           gap: 10,
           marginLeft: "auto",
           marginRight: "auto",
-          marginVertical: 20,
+          marginVertical: 10,
         }}
       >
         <AntDesign
@@ -112,18 +130,14 @@ const summary = () => {
             >
               <DataTable>
                 <DataTable.Header>
-                  <DataTable.Title>P</DataTable.Title>
-                  <DataTable.Title>A</DataTable.Title>
-                  <DataTable.Title>HD</DataTable.Title>
-                  <DataTable.Title>H</DataTable.Title>
-                  <DataTable.Title>NW</DataTable.Title>
+                  <DataTable.Title>Present</DataTable.Title>
+                  <DataTable.Title>Absent</DataTable.Title>
+                  <DataTable.Title>Half Days</DataTable.Title>
                 </DataTable.Header>
                 <DataTable.Row>
                   <DataTable.Cell>{item?.present}</DataTable.Cell>
                   <DataTable.Cell>{item?.absent}</DataTable.Cell>
                   <DataTable.Cell>{item?.halfday}</DataTable.Cell>
-                  <DataTable.Cell>1</DataTable.Cell>
-                  <DataTable.Cell>8</DataTable.Cell>
                 </DataTable.Row>
               </DataTable>
             </View>

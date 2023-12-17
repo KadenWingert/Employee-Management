@@ -72,7 +72,7 @@ const adddetails = () => {
             size={24}
             color="black"
           />
-          <View style={{flex:1, alignItems:"center", marginRight:10}}>
+          <View style={{ flex: 1, alignItems: "center", marginRight: 10 }}>
             <Text style={{ fontSize: 25, fontWeight: "bold" }}>
               Add a New Employee
             </Text>

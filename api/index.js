@@ -44,14 +44,6 @@ app.post("/addEmployee", async (req, res) => {
       salary,
       address,
     } = req.body;
-    // Check if the provided employeeId is not null and is unique
-    if (!employeeId) {
-      return res.status(400).json({ message: "Employee ID is required." });
-    }
-    const existingEmployee = await Employee.findOne({ employeeId });
-    if (existingEmployee) {
-      return res.status(400).json({ message: "Employee ID already exists." });
-    }
 
     //create a new Employee
     const newEmployee = new Employee({

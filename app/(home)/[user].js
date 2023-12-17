@@ -8,13 +8,13 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useLocalSearchParams } from "expo-router";
-import { useRouter } from "expo-router";
 import moment from "moment";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const user = () => {
   const router = useRouter();
@@ -58,8 +58,13 @@ const user = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <Ionicons
-        style={{ position: "absolute", top: 10, left: 10 }}
         onPress={() => router.back()}
+        style={{
+          marginLeft: 10,
+          marginTop: 10,
+          position: "absolute",
+          zIndex: 1,
+        }}
         name="arrow-back"
         size={24}
         color="black"
