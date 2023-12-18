@@ -4,6 +4,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Feather, Entypo, Ionicons, Octicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+
 
 const index = () => {
   const router = useRouter();
