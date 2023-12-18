@@ -20,6 +20,9 @@ const summary = () => {
   const [input, setInput] = useState("");
   const [employees, setEmployees] = useState([]);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+  const [showAllDetails, setShowAllDetails] = useState(true);
+  const [selectedEmployeeIds, setSelectedEmployeeIds] = useState([]);
+
 
   useEffect(() => {
     const fetchEmployeeData = async () => {
@@ -80,6 +83,14 @@ const summary = () => {
   const filteredAttendanceData = attendanceData.filter((item) =>
     item.name.toLowerCase().includes(input.toLowerCase())
   );
+  const toggleShowAllDetails = () => {
+    if (showAllDetails) {
+      // Clear selected employees if "Show All" is toggled off
+      setSelectedEmployeeIds([]);
+    }
+    setShowAllDetails(!showAllDetails);
+  };
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
       <View
@@ -146,6 +157,18 @@ const summary = () => {
           color="black"
         />
       </View>
+      <Pressable
+        onPress={toggleShowAllDetails}
+        style={{
+          position: "absolute",
+          right: 25,
+          top: 55,
+        }}
+      >
+        <Text style={{ color: "blue" }}>
+          {showAllDetails ? "Hide All" : "Show All"}
+        </Text>
+      </Pressable>
 
       <View style={{ marginHorizontal: 12 }}>
         {filteredAttendanceData.map((item, index) => (
@@ -180,7 +203,7 @@ const summary = () => {
               </View>
             </Pressable>
 
-            {selectedEmployeeId === item?.employeeId && (
+            {(showAllDetails || selectedEmployeeId === item?.employeeId) && (
               <View
                 style={{
                   marginTop: 15,
