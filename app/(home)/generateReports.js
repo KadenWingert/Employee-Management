@@ -5,6 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { LineChart } from "react-native-chart-kit";
+import axios from "axios";
 
 const generateReports = () => {
   const router = useRouter();
@@ -24,6 +25,27 @@ const generateReports = () => {
     return date.format("MMMM D, YYYY");
   };
 
+    useEffect(() => {
+      const fetchAttendanceData = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:8000/attendance-report-all-employees`,
+            {
+              params: {
+                month: currentDate.month() + 1,
+                year: currentDate.year(),
+              },
+            }
+          );
+          setAttendanceData(response.data.report);
+        } catch (error) {
+          console.log("Error fetching attendance data", error);
+        }
+      };
+
+      fetchAttendanceData();
+    }, [currentDate]);
+
   const screenWidth = Dimensions.get("window").width;
 
   const chartConfig = {
@@ -41,63 +63,97 @@ const generateReports = () => {
       stroke: "#FFFFFF", // White color for dots
       fill: "#FFFFFF", // White color for the center of the dots
     },
+
     propsForLabels: {
       fontFamily: "Arial", // Specify the font family for labels
       fontSize: 12, // Specify the font size for labels
       fill: "white", // Blue color for labels
     },
-  decimalPlaces: 0,
-  formatYLabel: (value) => `${value}%`, // Add "%" to the y-axis labels
-  yLabelsOffset: -10,
+    propsForVerticalLabels: {
+      fill: "white", // White color for y-axis labels
+    },
+    propsForHorizontalLabels: {
+      fill: "white", // White color for x-axis labels
+    },
+    propsForBackgroundLines: {
+      stroke: "white", // Set the color of the legend circle to white
+      strokeWidth: 1,
+    },
+    decimalPlaces: 0,
+    formatYLabel: (value) => `${value}%`, // Add "%" to the y-axis labels
+    yLabelsOffset: -10,
   };
 
-const data = {
-  labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43],
-      color: (opacity = 1) => `rgba(173, 216, 230, ${opacity})`, // Light grey for lines
-      strokeWidth: 2,
-    },
-  ],
-  legend: ["% of Days Present By Month"],
-};
+  const presentData = [20, 45, 28, 80, 99, 43];
+  const absentData = [5, 15, 10, 5, 1, 7];
 
-return (
-  <View style={{ flex: 1, backgroundColor: "white", }}>
-    <Ionicons
-      onPress={() => router.back()}
+  const totalDays = presentData.map(
+    (value, index) => value + absentData[index]
+  );
+
+  const data = {
+    labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
+    datasets: [
+      {
+        data: presentData.map(
+          (value, index) => (value / totalDays[index]) * 100
+        ),
+
+        color: (opacity = 1) => "white", // Light grey for lines
+        strokeWidth: 2,
+      },
+    ],
+    legend: ["% of Days Present By Month"],
+  };
+
+  return (
+    <View
       style={{
-        marginLeft: 10,
-        marginTop: 10,
-        position: "absolute",
-        zIndex: 1,
+        flex: 1,
+        backgroundColor: "white",
+        paddingTop: 10,
       }}
-      name="arrow-back"
-      size={24}
-      color="black"
-    />
+    >
+      <Ionicons
+        onPress={() => router.back()}
+        style={{
+          marginLeft: 10,
+          marginTop: 10,
+          position: "absolute",
+          zIndex: 1,
+        }}
+        name="arrow-back"
+        size={24}
+        color="black"
+      />
 
-
-    <Text style={{ alignSelf: 'center', color: 'white', marginBottom: 10 }}>
-      Attendance Percent Present
-    </Text>
-
-    <LineChart
-      data={data}
-      width={screenWidth}
-      paddingTop={10}
-      height={220}
-      chartConfig={chartConfig}
-      withCustomChartConfig={{
-        backgroundGradientFrom: "#0F243E",
-        backgroundGradientFromOpacity: 1,
-        backgroundGradientTo: "#0F243E",
-        backgroundGradientToOpacity: 1,
-      }}
-    />
-  </View>
-);
+      <Text style={{ alignSelf: "center", marginBottom: 10 }}>
+        Attendance Percent Present
+      </Text>
+      <View
+        style={{
+          paddingHorizontal: 16, // Add horizontal padding to create a card-like appearance
+          marginVertical: 8,
+          borderRadius: 8,
+          backgroundColor: "white", // Set background color to match the chart background
+        }}
+      >
+        <LineChart
+          data={data}
+          width={screenWidth - 32}
+          height={220}
+          chartConfig={chartConfig}
+          style={{ marginVertical: 8, borderRadius: 8, marginTop: 10 }}
+          withCustomChartConfig={{
+            backgroundGradientFrom: "#0F243E",
+            backgroundGradientFromOpacity: 1,
+            backgroundGradientTo: "#0F243E",
+            backgroundGradientToOpacity: 1,
+          }}
+        />
+      </View>
+    </View>
+  );
 };
 
 export default generateReports;
