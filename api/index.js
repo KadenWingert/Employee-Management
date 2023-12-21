@@ -207,3 +207,7 @@ app.get("/attendance-report-all-employees", async (req, res) => {
     res.status(500).json({ message: "Error generating the report" });
   }
 });
+
+
+
+

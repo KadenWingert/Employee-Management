@@ -11,43 +11,41 @@ const generateReports = () => {
   const router = useRouter();
 
   const [currentDate, setCurrentDate] = useState(moment());
-  const goToNextDay = () => {
-    const nextDate = moment(currentDate).add(1, "days");
-    setCurrentDate(nextDate);
-  };
+  const [attendanceData, setAttendanceData] = useState([]);
+  
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/attendance-report-all-employees`,
+          {
+            params: {
+              month: currentDate.month() + 1,
+              year: currentDate.year(),
+            },
+          }
+        );
+        console.log(response.data.report);
+        setAttendanceData(response.data.report);
+      } catch (error) {
+        console.log("Error fetching attendance data", error);
+      }
+    };
 
-  const goToPrevDay = () => {
-    const prevDate = moment(currentDate).subtract(1, "days");
-    setCurrentDate(prevDate);
-  };
-
-  const formatDate = (date) => {
-    return date.format("MMMM D, YYYY");
-  };
-
-    useEffect(() => {
-      const fetchAttendanceData = async () => {
-        try {
-          const response = await axios.get(
-            `http://localhost:8000/attendance-report-all-employees`,
-            {
-              params: {
-                month: currentDate.month() + 1,
-                year: currentDate.year(),
-              },
-            }
-          );
-          setAttendanceData(response.data.report);
-        } catch (error) {
-          console.log("Error fetching attendance data", error);
-        }
-      };
-
-      fetchAttendanceData();
-    }, [currentDate]);
+    fetchAttendanceData();
+  }, []);
 
   const screenWidth = Dimensions.get("window").width;
-
+//   const totalPresent = attendanceData.reduce(
+//     (acc, employee) => acc + employee.present,
+//     0
+//   );
+//   const totalAbsent = attendanceData.reduce(
+//     (acc, employee) => acc + employee.absent,
+//     0
+//   );
+//   console.log("Total Present:" + totalPresent);
+//   console.log("Total Absent:" + totalAbsent);
   const chartConfig = {
     backgroundGradientFrom: "#0c36a8", // Deep blue background
     backgroundGradientFromOpacity: 1,
@@ -84,27 +82,21 @@ const generateReports = () => {
     yLabelsOffset: -10,
   };
 
-  const presentData = [20, 45, 28, 80, 99, 43];
-  const absentData = [5, 15, 10, 5, 1, 7];
+const data = {
+  labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
+  datasets: [
+    {
+      data: attendanceData.map((employee) => {
+        console.log("Individual employee Present Count:" + employee.present);
+         return (employee.present / (employee.present + employee.absent)) * 100 || 0;
+      }),
+      color: (opacity = 1) => "white", // Light grey for lines
+      strokeWidth: 2,
+    },
+  ],
+  legend: ["% of Days Present By Month"],
+};
 
-  const totalDays = presentData.map(
-    (value, index) => value + absentData[index]
-  );
-
-  const data = {
-    labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
-    datasets: [
-      {
-        data: presentData.map(
-          (value, index) => (value / totalDays[index]) * 100
-        ),
-
-        color: (opacity = 1) => "white", // Light grey for lines
-        strokeWidth: 2,
-      },
-    ],
-    legend: ["% of Days Present By Month"],
-  };
 
   return (
     <View
