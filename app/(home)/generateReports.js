@@ -73,25 +73,26 @@ const generateReports = () => {
     datasets: [
       {
         data: [percentPresent, percentAbsent],
+        color: (opacity = 1) => `rgba(69,131,54,255)`, // color for "Present"
+        strokeWidth: 2, // optional
       },
     ],
   };
   const chartConfig = {
-    backgroundGradientFrom: "#ffffff",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#ffffff",
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     strokeWidth: 2,
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false,
+    barPercentage: 2,
     propsForLabels: {
       fontFamily: "Arial",
-      fontSize: 12,
-      fill: "black",
+      fontSize: 15,
     },
+    backgroundGradientFrom: "#74b36c",
+    backgroundGradientTo: "#74b36c",
+    fillShadowGradientFrom: "white", // Set the fill color
+    fillShadowGradientTo: "white",
+    fillShadowGradientOpacity: 1, // Set the opacity (1 for fully opaque)
     decimalPlaces: 0,
-    verticalLabelRotation: 0, // Ensure vertical labels are not rotated
+    color: (opacity = 1) => `rgba(0,0,0,0)`,
+    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
   };
 
   return (
@@ -106,7 +107,7 @@ const generateReports = () => {
         }}
         name="arrow-back"
         size={24}
-        color="black"
+        color="white"
       />
 
       <View
@@ -123,14 +124,14 @@ const generateReports = () => {
           onPress={goToPrevMonth}
           name="left"
           size={24}
-          color="black"
+          color="white"
         />
-        <Text>{formatDate(currentDate)}</Text>
+        <Text style={{ color: "white" }}>{formatDate(currentDate)}</Text>
         <AntDesign
           onPress={goToNextMonth}
           name="right"
           size={24}
-          color="black"
+          color="white"
         />
       </View>
       <View style={styles.cardContainer}>
@@ -181,9 +182,15 @@ const generateReports = () => {
         <View style={styles.card}>
           <BarChart
             data={chartData}
-            width={Dimensions.get("window").width - 32}
+            width={Dimensions.get("window").width * 0.84}
             height={365}
             chartConfig={chartConfig}
+            fromZero={true}
+            fromNumber={100}
+            withInnerLines={false}
+            yAxisSuffix={"%"}
+            segments={10}
+            style={{ borderRadius: 20 }}
           />
         </View>
       </View>
@@ -196,23 +203,23 @@ export default generateReports;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0", // Light gray background
+    backgroundColor: "#458336", // Light gray background
     paddingTop: 10,
     paddingHorizontal: 16,
   },
   labelText: {
     fontWeight: "bold",
+    color: "white",
   },
   row: { flexDirection: "row" },
   value: {
     marginBottom: 10,
     marginLeft: 10,
   },
+  valueText: { color: "white" },
   cardContainer: { display: "flex" },
 
   card: {
-    backgroundColor: "white",
-    borderRadius: 8,
     padding: 16,
     marginTop: 20,
     elevation: 3, // Android shadow
@@ -229,5 +236,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 18,
     fontWeight: "bold",
+    color: "white",
   },
 });
