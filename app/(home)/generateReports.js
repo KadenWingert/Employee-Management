@@ -5,8 +5,10 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { BarChart } from "react-native-chart-kit";
+import { useRouter } from "expo-router";
 
 const generateReports = () => {
+  const router = useRouter();
   const [currentDate, setCurrentDate] = useState(moment());
   const [attendanceData, setAttendanceData] = useState([]);
 
@@ -61,6 +63,9 @@ const generateReports = () => {
 
   const percentPresent = totalDays !== 0 ? (totalPresent / totalDays) * 100 : 0;
   const percentAbsent = totalDays !== 0 ? (totalAbsent / totalDays) * 100 : 0;
+  console.log(
+    "Percent Present: " + percentPresent + "Percent Absent: " + percentAbsent
+  );
 
   // Prepare data for the chart
   const chartData = {
@@ -87,11 +92,6 @@ const generateReports = () => {
     },
     decimalPlaces: 0,
     verticalLabelRotation: 0, // Ensure vertical labels are not rotated
-    axisY: {
-      min: 0, // Set the minimum value for the Y-axis
-      max: 100, // Set the maximum value for the Y-axis
-      labelFontSize: 10, // Adjust the font size for Y-axis labels
-    },
   };
 
   return (
@@ -135,7 +135,7 @@ const generateReports = () => {
       </View>
       <View style={styles.cardContainer}>
         <Text style={styles.title}>Company Attendance Overview</Text>
-        <View style={styles.card}>
+        <View style={{ padding: 10, paddingTop: "8%" }}>
           <View style={styles.row}>
             <View style={styles.label}>
               <Text style={styles.labelText}>Total Days Logged:</Text>
@@ -182,20 +182,9 @@ const generateReports = () => {
           <BarChart
             data={chartData}
             width={Dimensions.get("window").width - 32}
-            height={220}
+            height={365}
             chartConfig={chartConfig}
-            style={{}}
           />
-          <View style={styles.legend}>
-            <View style={styles.legendItem}>
-              <Text style={[styles.legendColor, ]} />
-              <Text style={styles.legendText}>Present</Text>
-            </View>
-            <View style={styles.legendItem}>
-              <Text style={[styles.legendColor,]} />
-              <Text style={styles.legendText}>Absent</Text>
-            </View>
-          </View>
         </View>
       </View>
     </View>
@@ -219,7 +208,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 10,
   },
-  cardContainer: { display: "flex",  },
+  cardContainer: { display: "flex" },
 
   card: {
     backgroundColor: "white",
@@ -240,23 +229,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 18,
     fontWeight: "bold",
-  },
-  legend: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 10,
-  },
-  legendItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginRight: 10,
-  },
-  legendColor: {
-    width: 16,
-    height: 16,
-    marginRight: 5,
-  },
-  legendText: {
-    fontSize: 12,
   },
 });
