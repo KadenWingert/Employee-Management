@@ -67,7 +67,12 @@ const markattendance = () => {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <Ionicons
         onPress={() => router.back()}
-        style={{ marginLeft: 10,marginTop:10, position:"absolute", zIndex:1}}
+        style={{
+          marginLeft: 10,
+          marginTop: 10,
+          position: "absolute",
+          zIndex: 1,
+        }}
         name="arrow-back"
         size={24}
         color="black"

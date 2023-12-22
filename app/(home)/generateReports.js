@@ -2,16 +2,27 @@ import { Pressable, StyleSheet, Text, View, Dimensions } from "react-native";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { AntDesign } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { LineChart } from "react-native-chart-kit";
 import axios from "axios";
+import { BarChart } from "react-native-chart-kit";
 
 const generateReports = () => {
-  const router = useRouter();
-
   const [currentDate, setCurrentDate] = useState(moment());
   const [attendanceData, setAttendanceData] = useState([]);
+
+  const goToNextMonth = () => {
+    const nextDate = moment(currentDate).add(1, "months");
+    setCurrentDate(nextDate);
+  };
+
+  const goToPrevMonth = () => {
+    const prevDate = moment(currentDate).subtract(1, "months");
+    setCurrentDate(prevDate);
+  };
+
+  const formatDate = (date) => {
+    return date.format("MMMM, YYYY");
+  };
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
@@ -33,74 +44,58 @@ const generateReports = () => {
     };
 
     fetchAttendanceData();
-  }, []);
+  }, [currentDate]);
 
-  const screenWidth = Dimensions.get("window").width;
+  const totalDays = attendanceData.reduce(
+    (acc, employee) => acc + employee.present + employee.absent,
+    0
+  );
+  const totalPresent = attendanceData.reduce(
+    (acc, employee) => acc + employee.present,
+    0
+  );
+  const totalAbsent = attendanceData.reduce(
+    (acc, employee) => acc + employee.absent,
+    0
+  );
 
+  const percentPresent = totalDays !== 0 ? (totalPresent / totalDays) * 100 : 0;
+  const percentAbsent = totalDays !== 0 ? (totalAbsent / totalDays) * 100 : 0;
+
+  // Prepare data for the chart
+  const chartData = {
+    labels: ["Present", "Absent"],
+    datasets: [
+      {
+        data: [percentPresent, percentAbsent],
+      },
+    ],
+  };
   const chartConfig = {
-    backgroundGradientFrom: "#0c36a8", // Deep blue background
-    backgroundGradientFromOpacity: 1,
-    backgroundGradientTo: "#0F243E",
-    backgroundGradientToOpacity: 1,
-    color: (opacity = 1) => `rgba(173, 216, 230, ${opacity})`, // Light grey for dots
+    backgroundGradientFrom: "#ffffff",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#ffffff",
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     strokeWidth: 2,
     barPercentage: 0.5,
     useShadowColorFromDataset: false,
-    propsForDots: {
-      r: "6", // Dot size
-      strokeWidth: "2",
-      stroke: "#FFFFFF", // White color for dots
-      fill: "#FFFFFF", // White color for the center of the dots
-    },
-
     propsForLabels: {
-      fontFamily: "Arial", // Specify the font family for labels
-      fontSize: 12, // Specify the font size for labels
-      fill: "white", // Blue color for labels
-    },
-    propsForVerticalLabels: {
-      fill: "white", // White color for y-axis labels
-    },
-    propsForHorizontalLabels: {
-      fill: "white", // White color for x-axis labels
-    },
-    propsForBackgroundLines: {
-      stroke: "white", // Set the color of the legend circle to white
-      strokeWidth: 1,
+      fontFamily: "Arial",
+      fontSize: 12,
+      fill: "black",
     },
     decimalPlaces: 0,
-    formatYLabel: (value) => `${value}%`, // Add "%" to the y-axis labels
-    yLabelsOffset: -10,
-  };
-
-  const data = {
-    labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
-    datasets: [
-      {
-        data: attendanceData.map((employee) => {
-          console.log("Individual employee Present Count:" + employee.present);
-                    console.log(
-                      "Individual employee Absent Count:" + employee.absent
-                    );
-          const total = employee.present + employee.absent;
-          return total !== 0 ? (employee.present / total) * 100 : 0;
-        }),
-
-        color: (opacity = 1) => "white", // Light grey for lines
-        strokeWidth: 2,
-      },
-    ],
-    legend: ["% of Days Present By Month"],
+    verticalLabelRotation: 0, // Ensure vertical labels are not rotated
+    axisY: {
+      min: 0, // Set the minimum value for the Y-axis
+      max: 100, // Set the maximum value for the Y-axis
+      labelFontSize: 10, // Adjust the font size for Y-axis labels
+    },
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-        paddingTop: 10,
-      }}
-    >
+    <View style={styles.container}>
       <Ionicons
         onPress={() => router.back()}
         style={{
@@ -114,30 +109,94 @@ const generateReports = () => {
         color="black"
       />
 
-      <Text style={{ alignSelf: "center", marginBottom: 10 }}>
-        Attendance Percent Present
-      </Text>
       <View
         style={{
-          paddingHorizontal: 16, // Add horizontal padding to create a card-like appearance
-          marginVertical: 8,
-          borderRadius: 8,
-          backgroundColor: "white", // Set background color to match the chart background
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 10,
+          marginLeft: "auto",
+          marginRight: "auto",
+          marginVertical: 10,
         }}
       >
-        <LineChart
-          data={data}
-          width={screenWidth - 32}
-          height={220}
-          chartConfig={chartConfig}
-          style={{ marginVertical: 8, borderRadius: 8, marginTop: 10 }}
-          withCustomChartConfig={{
-            backgroundGradientFrom: "#0F243E",
-            backgroundGradientFromOpacity: 1,
-            backgroundGradientTo: "#0F243E",
-            backgroundGradientToOpacity: 1,
-          }}
+        <AntDesign
+          onPress={goToPrevMonth}
+          name="left"
+          size={24}
+          color="black"
         />
+        <Text>{formatDate(currentDate)}</Text>
+        <AntDesign
+          onPress={goToNextMonth}
+          name="right"
+          size={24}
+          color="black"
+        />
+      </View>
+      <View style={styles.cardContainer}>
+        <Text style={styles.title}>Company Attendance Overview</Text>
+        <View style={styles.card}>
+          <View style={styles.row}>
+            <View style={styles.label}>
+              <Text style={styles.labelText}>Total Days Logged:</Text>
+            </View>
+            <View style={styles.value}>
+              <Text style={styles.valueText}>{totalDays}</Text>
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.label}>
+              <Text style={styles.labelText}>Present:</Text>
+            </View>
+            <View style={styles.value}>
+              <Text style={styles.valueText}>{totalPresent}</Text>
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.label}>
+              <Text style={styles.labelText}>Absent:</Text>
+            </View>
+            <View style={styles.value}>
+              <Text style={styles.valueText}>{totalAbsent}</Text>
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.label}>
+              <Text style={styles.labelText}>Percent Present:</Text>
+            </View>
+            <View style={styles.value}>
+              <Text style={styles.valueText}>{percentPresent.toFixed(2)}%</Text>
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.label}>
+              <Text style={styles.labelText}>Percent Absent:</Text>
+            </View>
+            <View style={styles.value}>
+              <Text style={styles.valueText}>{percentAbsent.toFixed(2)}%</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.card}>
+          <BarChart
+            data={chartData}
+            width={Dimensions.get("window").width - 32}
+            height={220}
+            chartConfig={chartConfig}
+            style={{}}
+          />
+          <View style={styles.legend}>
+            <View style={styles.legendItem}>
+              <Text style={[styles.legendColor, ]} />
+              <Text style={styles.legendText}>Present</Text>
+            </View>
+            <View style={styles.legendItem}>
+              <Text style={[styles.legendColor,]} />
+              <Text style={styles.legendText}>Absent</Text>
+            </View>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -145,4 +204,59 @@ const generateReports = () => {
 
 export default generateReports;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f0f0f0", // Light gray background
+    paddingTop: 10,
+    paddingHorizontal: 16,
+  },
+  labelText: {
+    fontWeight: "bold",
+  },
+  row: { flexDirection: "row" },
+  value: {
+    marginBottom: 10,
+    marginLeft: 10,
+  },
+  cardContainer: { display: "flex",  },
+
+  card: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 16,
+    marginTop: 20,
+    elevation: 3, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+  },
+  title: {
+    alignSelf: "center",
+    marginBottom: 10,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  legend: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  legendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 10,
+  },
+  legendColor: {
+    width: 16,
+    height: 16,
+    marginRight: 5,
+  },
+  legendText: {
+    fontSize: 12,
+  },
+});
