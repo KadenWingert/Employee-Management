@@ -12,7 +12,7 @@ const generateReports = () => {
 
   const [currentDate, setCurrentDate] = useState(moment());
   const [attendanceData, setAttendanceData] = useState([]);
-  
+
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
@@ -36,16 +36,7 @@ const generateReports = () => {
   }, []);
 
   const screenWidth = Dimensions.get("window").width;
-//   const totalPresent = attendanceData.reduce(
-//     (acc, employee) => acc + employee.present,
-//     0
-//   );
-//   const totalAbsent = attendanceData.reduce(
-//     (acc, employee) => acc + employee.absent,
-//     0
-//   );
-//   console.log("Total Present:" + totalPresent);
-//   console.log("Total Absent:" + totalAbsent);
+
   const chartConfig = {
     backgroundGradientFrom: "#0c36a8", // Deep blue background
     backgroundGradientFromOpacity: 1,
@@ -82,21 +73,25 @@ const generateReports = () => {
     yLabelsOffset: -10,
   };
 
-const data = {
-  labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
-  datasets: [
-    {
-      data: attendanceData.map((employee) => {
-        console.log("Individual employee Present Count:" + employee.present);
-         return (employee.present / (employee.present + employee.absent)) * 100 || 0;
-      }),
-      color: (opacity = 1) => "white", // Light grey for lines
-      strokeWidth: 2,
-    },
-  ],
-  legend: ["% of Days Present By Month"],
-};
+  const data = {
+    labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
+    datasets: [
+      {
+        data: attendanceData.map((employee) => {
+          console.log("Individual employee Present Count:" + employee.present);
+                    console.log(
+                      "Individual employee Absent Count:" + employee.absent
+                    );
+          const total = employee.present + employee.absent;
+          return total !== 0 ? (employee.present / total) * 100 : 0;
+        }),
 
+        color: (opacity = 1) => "white", // Light grey for lines
+        strokeWidth: 2,
+      },
+    ],
+    legend: ["% of Days Present By Month"],
+  };
 
   return (
     <View
