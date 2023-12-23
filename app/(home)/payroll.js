@@ -24,6 +24,15 @@ const payroll = () => {
     fetchEmployeeData();
   }, []);
 
+  const onProfileClick = (employeeId) => {
+    // Navigate to the payroll details screen with the selected employeeId
+    router.push({
+      pathname: "/payrolldetails",
+      params: { employeeId },
+    });
+    console.log("Employee ID on Payroll screen: " + employeeId);
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
@@ -72,6 +81,7 @@ const payroll = () => {
           data={employees}
           input={input}
           setInput={setInput}
+          onProfileClick={onProfileClick}
         />
       )}
     </View>

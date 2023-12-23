@@ -79,6 +79,26 @@ app.get("/employees", async (req, res) => {
   }
 });
 
+// endpoint to fetch details of a specific employee
+app.get("/employees/:employeeId", async (req, res) => {
+  try {
+    const employeeId = req.params.employeeId;
+
+    // Find the employee by employeeId
+    const employeeDetails = await Employee.findOne({ employeeId: employeeId.toString() });
+    
+    if (!employeeDetails) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    res.status(200).json(employeeDetails);
+  } catch (error) {
+    console.error("Error fetching employee details:", error);
+    res.status(500).json({ message: "Error fetching employee details" });
+  }
+});
+
+
 app.post("/attendance", async (req, res) => {
   try {
     const { employeeId, employeeName, date, status } = req.body;
@@ -207,7 +227,3 @@ app.get("/attendance-report-all-employees", async (req, res) => {
     res.status(500).json({ message: "Error generating the report" });
   }
 });
-
-
-
-
