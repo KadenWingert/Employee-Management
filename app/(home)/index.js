@@ -3,9 +3,10 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Feather, Entypo, Ionicons, Octicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { AntDesign } from "@expo/vector-icons";
 import * as SplashScreen from "expo-splash-screen";
-
 
 const index = () => {
   const router = useRouter();
@@ -169,7 +170,7 @@ const index = () => {
                   justifyContent: "center",
                 }}
               >
-                <Octicons name="report" size={24} color="black" />
+                <AntDesign name="barschart" size={24} color="black" />
               </View>
               <Text
                 style={{
@@ -179,7 +180,7 @@ const index = () => {
                   flex: 1,
                 }}
               >
-                All Generate Reports
+                View Reports
               </Text>
               <View
                 style={{
@@ -195,6 +196,7 @@ const index = () => {
               </View>
             </Pressable>
             <Pressable
+              onPress={() => router.push("/(home)/payroll")}
               style={{
                 backgroundColor: "#F2F2F2",
                 borderRadius: 6,
@@ -215,7 +217,7 @@ const index = () => {
                   justifyContent: "center",
                 }}
               >
-                <Ionicons name="people" size={24} color="black" />
+                <MaterialIcons name="attach-money" size={24} color="black" />
               </View>
               <Text
                 style={{
@@ -225,7 +227,7 @@ const index = () => {
                   flex: 1,
                 }}
               >
-                Overtime Employees
+                Payroll
               </Text>
               <View
                 style={{
