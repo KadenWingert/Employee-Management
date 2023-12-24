@@ -5,6 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import FlipCard from 'react-native-flip-card'
+
 
 const AttendanceCriteria = () => {
   const router = useRouter();
