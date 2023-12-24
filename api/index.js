@@ -101,7 +101,6 @@ app.get("/employees/:id", async (req, res) => {
   }
 });
 
-
 app.post("/attendance", async (req, res) => {
   try {
     const { employeeId, employeeName, date, status } = req.body;

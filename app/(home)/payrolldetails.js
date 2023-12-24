@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import axios from "axios";
@@ -38,18 +39,20 @@ const PayrollDetails = () => {
         const nextFriday = today.clone().day(5); // Get next Friday
 
         // Generate previous pay periods (4 weeks before the current one, moved up by one week)
-        const previousPayPeriods = Array.from({ length: 4 }).map((_, index) => {
-          const startDate = today
-            .clone()
-            .isoWeekday(1)
-            .subtract((index + 1) * 7, "days");
-          const endDate = startDate.clone().add(6, "days");
-          return {
-            period: `Previous Pay Period ${index + 1}`,
-            startDate: startDate.format("MM/DD/YYYY"),
-            endDate: endDate.format("MM/DD/YYYY"),
-          };
-        });
+        const previousPayPeriods = Array.from({ length: 10 }).map(
+          (_, index) => {
+            const startDate = today
+              .clone()
+              .isoWeekday(1)
+              .subtract((index + 1) * 7, "days");
+            const endDate = startDate.clone().add(6, "days");
+            return {
+              period: `Previous Pay Period ${index + 1}`,
+              startDate: startDate.format("MM/DD/YYYY"),
+              endDate: endDate.format("MM/DD/YYYY"),
+            };
+          }
+        );
         setPayPeriods(previousPayPeriods);
       } catch (error) {
         console.log("error fetching pay periods", error);
@@ -74,10 +77,12 @@ const PayrollDetails = () => {
       </View>
 
       <View style={styles.topHalf}>
-        <Text style={styles.heading}>Current Pay Period</Text>
+        <Text style={styles.heading}>Pay Period</Text>
         <Text style={styles.currentPayPeriod}>
-          Pay Period: {moment().isoWeekday(1).format("MM/DD/YYYY")} to{" "}
-          {moment().isoWeekday(0).add(7, "days").format("MM/DD/YYYY")}
+          {"Monday " + moment().isoWeekday(1).format("MM/DD/YYYY")}
+          {" - "}
+          {"Sunday " +
+            moment().isoWeekday(0).add(7, "days").format("MM/DD/YYYY")}
         </Text>
         {/* Implement logic to calculate the number of days present for the current period */}
         {/* For demonstration purposes, I'll use a dummy value */}
@@ -93,20 +98,26 @@ const PayrollDetails = () => {
           <Text style={styles.headerColumn}>Pay Period</Text>
           <Text style={styles.headerColumn}>Compensation</Text>
         </View>
-
-        {payPeriods.map((period, index) => (
-          <View key={index} style={styles.payPeriodContainer}>
-            {/* Row with pay date, pay period, and compensation values */}
-            <View style={styles.dataRow}>
-              <Text style={styles.dataColumn}>{period.startDate}</Text>
-              <Text style={styles.dataColumn}>
-                {period.startDate} {period.endDate}
-              </Text>
-              <Text style={styles.dataColumn}>2,000</Text>
-              <Text style={styles.dataColumn}>{period.compensation}</Text>
+        <ScrollView>
+          {payPeriods.map((period, index) => (
+            <View key={index} style={styles.payPeriodContainer}>
+              {/* Row with pay date, pay period, and compensation values */}
+              <View style={styles.dataRow}>
+                <Text style={(styles.dataColumn, styles.row2)}>
+                  <FontAwesome5 name="calendar-alt" size={24} color="black" />
+                  {"   " + period.startDate}
+                </Text>
+                <Text style={styles.dataColumn}>
+                  {period.startDate}
+                  {"\n"}
+                  {period.endDate}
+                </Text>
+                <Text style={(styles.dataColumn, styles.row3)}>2,000</Text>
+                <Text style={styles.dataColumn}>{period.compensation}</Text>
+              </View>
             </View>
-          </View>
-        ))}
+          ))}
+        </ScrollView>
       </View>
     </View>
   );
@@ -143,12 +154,11 @@ const styles = StyleSheet.create({
   currentPayPeriod: {
     alignSelf: "center",
     color: "white",
-    fontSize: 18,
+    fontSize: 20,
     paddingVertical: 10,
   },
   bottomHalf: {
-    flex: 1,
-    paddingBottom: "15%",
+    flex: 2,
     backgroundColor: "white",
   },
   headerRow: {
@@ -160,7 +170,7 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: "#F3F3F3",
     alignItems: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
   },
   headerColumn: {
     fontSize: 16,
@@ -169,24 +179,29 @@ const styles = StyleSheet.create({
   },
   dataRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 10,
+    justifyContent: "space-around",
+    padding: 15,
+    borderBottomWidth: 1,
     paddingTop: 15,
-    padding: 10,
     alignContent: "space-evenly",
+  },
+
+  row2: {
+    marginHorizontal: "-5%",
+  },
+  row3: {
+    alignSelf: "center",
   },
   payPeriodContainer: {
     marginBottom: 10,
   },
   heading: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
     color: "white",
     opacity: 0.85,
-  },
-  payPeriodContainer: {
-    marginBottom: 10,
+    alignSelf: "center",
   },
 });
 
