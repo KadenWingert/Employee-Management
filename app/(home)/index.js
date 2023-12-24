@@ -262,22 +262,26 @@ const index = () => {
                 flex: 1,
               }}
             >
-              <View
-                style={{
-                  width: 35,
-                  height: 35,
-                  borderRadius: 7,
-                  backgroundColor: "white",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+              <Pressable
+                onPress={() => router.push("/(home)/attendanceCriteria")}
               >
-                <MaterialCommunityIcons
-                  name="guy-fawkes-mask"
-                  size={24}
-                  color="black"
-                />
-              </View>
+                <View
+                  style={{
+                    width: 35,
+                    height: 35,
+                    borderRadius: 7,
+                    backgroundColor: "white",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="guy-fawkes-mask"
+                    size={24}
+                    color="black"
+                  />
+                </View>
+              </Pressable>
               <Text style={{ marginTop: 7 }}>Attendance Criteria</Text>
             </View>
             <View

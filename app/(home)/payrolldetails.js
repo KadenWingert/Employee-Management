@@ -6,6 +6,7 @@ import { useRoute } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import axios from "axios";
 import moment from "moment";
+import employees from "./employees";
 
 const PayrollDetails = () => {
   const router = useRouter();
@@ -77,22 +78,46 @@ const PayrollDetails = () => {
       </View>
 
       <View style={styles.topHalf}>
-        <Text style={styles.heading}>Pay Period</Text>
+        <View style={styles.moneyContainer}>
+          <FontAwesome5 name="dollar-sign" size={24} color="#24FB06" />
+          <Text style={styles.heading}> Pay Period </Text>
+          <FontAwesome5 name="dollar-sign" size={24} color="#24FB06" />
+        </View>
         <Text style={styles.currentPayPeriod}>
           {"Monday " + moment().isoWeekday(1).format("MM/DD/YYYY")}
           {" - "}
           {"Sunday " +
             moment().isoWeekday(0).add(7, "days").format("MM/DD/YYYY")}
         </Text>
-        {/* Implement logic to calculate the number of days present for the current period */}
-        {/* For demonstration purposes, I'll use a dummy value */}
-        <Text style={styles.whiteText}>
-          Days Present: {employeeDetails?.daysPresent || 0}
-        </Text>
+
+        {employeeDetails && (
+          <View>
+            <View style={styles.mainInfoContainer}>
+              <Text style={styles.boldWhiteText}>Gross Pay: </Text>
+              <Text style={styles.whiteText}>
+                {(employeeDetails.salary / 52).toFixed(2)}
+              </Text>
+            </View>
+            <View style={styles.mainInfoContainer}>
+              <Text style={styles.boldWhiteText}>Taxes Deducted: </Text>
+              <Text style={styles.whiteText}>
+                {((employeeDetails.salary / 52) * 0.13).toFixed(2)}
+              </Text>
+            </View>
+            <View style={styles.mainInfoContainer}>
+              <Text style={styles.boldWhiteText}>Net Pay: </Text>
+              <Text style={styles.whiteText}>
+                {(
+                  employeeDetails.salary / 52 -
+                  (employeeDetails.salary / 52) * 0.13
+                ).toFixed(2)}
+              </Text>
+            </View>
+          </View>
+        )}
       </View>
 
       <View style={styles.bottomHalf}>
-        {/* Row with headers for pay date, pay period, and compensation */}
         <View style={styles.headerRow}>
           <Text style={styles.headerColumn}>Pay Date</Text>
           <Text style={styles.headerColumn}>Pay Period</Text>
@@ -112,7 +137,12 @@ const PayrollDetails = () => {
                   {"\n"}
                   {period.endDate}
                 </Text>
-                <Text style={(styles.dataColumn, styles.row3)}>2,000</Text>
+                <Text style={(styles.dataColumn, styles.row3)}>
+                  {(
+                    employeeDetails.salary / 52 -
+                    (employeeDetails.salary / 52) * 0.13
+                  ).toFixed(2)}
+                </Text>
                 <Text style={styles.dataColumn}>{period.compensation}</Text>
               </View>
             </View>
@@ -150,12 +180,31 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
     alignSelf: "center",
   },
-  whiteText: { color: "white", fontSize: 20 },
+  moneyContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  mainInfoContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    paddingBottom: "5%",
+  },
+  boldWhiteText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  whiteText: {
+    color: "white",
+    fontSize: 20,
+  },
   currentPayPeriod: {
     alignSelf: "center",
     color: "white",
     fontSize: 20,
-    paddingVertical: 10,
+    paddingVertical: 20,
   },
   bottomHalf: {
     flex: 2,
@@ -191,16 +240,15 @@ const styles = StyleSheet.create({
   },
   row3: {
     alignSelf: "center",
+    paddingLeft: 25,
   },
   payPeriodContainer: {
     marginBottom: 10,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
-    marginBottom: 10,
     color: "white",
-    opacity: 0.85,
     alignSelf: "center",
   },
 });

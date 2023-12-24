@@ -139,6 +139,20 @@ app.get("/attendance", async (req, res) => {
   }
 });
 
+app.get("/attendance/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    // Find attendance records for the specified employee by _id
+    const attendanceData = await Attendance.find({ employeeId: id });
+
+    res.status(200).json(attendanceData);
+  } catch (error) {
+    console.error("Error fetching attendance data for employee:", error);
+    res.status(500).json({ message: "Error fetching attendance data" });
+  }
+});
+
 app.get("/attendance-report-all-employees", async (req, res) => {
   try {
     const { month, year } = req.query;
@@ -229,3 +243,5 @@ app.get("/attendance-report-all-employees", async (req, res) => {
     res.status(500).json({ message: "Error generating the report" });
   }
 });
+
+
