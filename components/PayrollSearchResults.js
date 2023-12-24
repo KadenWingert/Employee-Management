@@ -10,7 +10,7 @@ const PayrollSearchResults = ({ data, input, setInput, onProfileClick }) => {
           if (item?.employeeName.toLowerCase().includes(input.toLowerCase())) {
             return (
               <Pressable
-                onPress={() => onProfileClick(item?.employeeId)}
+                onPress={() => onProfileClick(item?._id)}
                 style={{ marginVertical: 10, gap: 10, flexDirection: "row" }}
               >
                 <View
@@ -39,6 +39,7 @@ const PayrollSearchResults = ({ data, input, setInput, onProfileClick }) => {
                     </Text>
                   </View>
                 </View>
+
               </Pressable>
             );
           }

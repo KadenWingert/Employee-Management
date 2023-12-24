@@ -1,38 +1,36 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useRoute } from "@react-navigation/native";
 import axios from "axios";
 
 const payrolldetails = () => {
-  const router = useRouter();
+  const route = useRoute();
 
   const [employeeDetails, setEmployeeDetails] = useState(null);
+  // console.log("Router.params: " + router.params);
 
-  // Fetch employee details when the component mounts
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
-        // Get the employeeId from the query parameters
-        const { employeeId } = router.query;
-
-        if (!employeeId) {
-          console.error("EmployeeId not found in route parameters.");
+        // Get the employeeId from the route parameters
+        const { _id } = route.params;
+        console.log("Router.params: " + route.params._id);
+        if (!_id) {
+          console.error("Id not found in route parameters.");
           return;
         }
-
         // Fetch employee details using the employeeId
         const response = await axios.get(
-          `http://localhost:8000/employees/${employeeId}`
+          `http://localhost:8000/employees/${_id}`
         );
         setEmployeeDetails(response.data);
       } catch (error) {
         console.log("error fetching employee details", error);
       }
     };
-
     fetchEmployeeDetails();
-  }, [router.query]); // Re-run the effect when the query parameters change
+  }, [route.params]);
   return (
     <View>
       <Ionicons

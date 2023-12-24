@@ -80,13 +80,16 @@ app.get("/employees", async (req, res) => {
 });
 
 // endpoint to fetch details of a specific employee
-app.get("/employees/:employeeId", async (req, res) => {
+app.get("/employees/:id", async (req, res) => {
   try {
-    const employeeId = req.params.employeeId;
+    const id = req.params.id;
+    console.log("API employeeID: " + id);
 
     // Find the employee by employeeId
-    const employeeDetails = await Employee.findOne({ employeeId: employeeId.toString() });
-    
+    const employeeDetails = await Employee.findById(id);
+
+    console.log("API employeeDetails: " + employeeDetails);
+
     if (!employeeDetails) {
       return res.status(404).json({ message: "Employee not found" });
     }

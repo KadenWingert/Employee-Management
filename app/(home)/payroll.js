@@ -24,13 +24,13 @@ const payroll = () => {
     fetchEmployeeData();
   }, []);
 
-  const onProfileClick = (employeeId) => {
+  const onProfileClick = (_id) => {
     // Navigate to the payroll details screen with the selected employeeId
     router.push({
       pathname: "/(home)/payrolldetails",
-      params: { employeeId },
+      params: { _id },
     });
-    console.log("Employee ID on Payroll screen: " + employeeId);
+    console.log("ID on Payroll screen: " + _id);
   };
 
   return (
