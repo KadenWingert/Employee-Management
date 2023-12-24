@@ -34,19 +34,20 @@ const PayrollDetails = () => {
       try {
         // Calculate the current payroll period (last Friday through the next Friday)
         const today = moment();
-        const lastFriday = today.clone().day(-6); // Get last Friday
-        const nextFriday = lastFriday.clone().add(7, "days"); // Get next Friday
+        const lastFriday = today.clone().day(-2); // Get last Friday
+        const nextFriday = today.clone().day(5); // Get next Friday
 
-        // Generate previous pay periods (4 weeks before the current one)
+        // Generate previous pay periods (4 weeks before the current one, moved up by one week)
         const previousPayPeriods = Array.from({ length: 4 }).map((_, index) => {
-          const startDate = lastFriday
+          const startDate = today
             .clone()
+            .isoWeekday(1)
             .subtract((index + 1) * 7, "days");
           const endDate = startDate.clone().add(6, "days");
           return {
             period: `Previous Pay Period ${index + 1}`,
-            startDate: startDate.format("YYYY-MM-DD"),
-            endDate: endDate.format("YYYY-MM-DD"),
+            startDate: startDate.format("MM/DD/YYYY"),
+            endDate: endDate.format("MM/DD/YYYY"),
           };
         });
         setPayPeriods(previousPayPeriods);
@@ -54,6 +55,7 @@ const PayrollDetails = () => {
         console.log("error fetching pay periods", error);
       }
     };
+
     fetchEmployeeDetails();
     fetchPayPeriods();
   }, [route.params]);
@@ -74,8 +76,8 @@ const PayrollDetails = () => {
       <View style={styles.topHalf}>
         <Text style={styles.heading}>Current Pay Period</Text>
         <Text style={styles.currentPayPeriod}>
-          Pay Period: {moment().format("YYYY-MM-DD")} to{" "}
-          {moment().add(6, "days").format("YYYY-MM-DD")}
+          Pay Period: {moment().isoWeekday(1).format("MM/DD/YYYY")} to{" "}
+          {moment().isoWeekday(0).add(7, "days").format("MM/DD/YYYY")}
         </Text>
         {/* Implement logic to calculate the number of days present for the current period */}
         {/* For demonstration purposes, I'll use a dummy value */}
@@ -85,13 +87,24 @@ const PayrollDetails = () => {
       </View>
 
       <View style={styles.bottomHalf}>
-        <Text style={styles.heading}>Previous Pay Periods</Text>
+        {/* Row with headers for pay date, pay period, and compensation */}
+        <View style={styles.headerRow}>
+          <Text style={styles.headerColumn}>Pay Date</Text>
+          <Text style={styles.headerColumn}>Pay Period</Text>
+          <Text style={styles.headerColumn}>Compensation</Text>
+        </View>
+
         {payPeriods.map((period, index) => (
           <View key={index} style={styles.payPeriodContainer}>
-            <Text>{period.period}</Text>
-            <Text>
-              Pay Period: {period.startDate} to {period.endDate}
-            </Text>
+            {/* Row with pay date, pay period, and compensation values */}
+            <View style={styles.dataRow}>
+              <Text style={styles.dataColumn}>{period.startDate}</Text>
+              <Text style={styles.dataColumn}>
+                {period.startDate} {period.endDate}
+              </Text>
+              <Text style={styles.dataColumn}>2,000</Text>
+              <Text style={styles.dataColumn}>{period.compensation}</Text>
+            </View>
           </View>
         ))}
       </View>
@@ -133,11 +146,37 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingVertical: 10,
   },
-
   bottomHalf: {
     flex: 1,
-    paddingVertical: 10,
+    paddingBottom: "15%",
     backgroundColor: "white",
+  },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
+    backgroundColor: "white",
+    padding: 15,
+    backgroundColor: "#F3F3F3",
+    alignItems: "center",
+    paddingHorizontal: 10,
+  },
+  headerColumn: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 0,
+  },
+  dataRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+    paddingTop: 15,
+    padding: 10,
+    alignContent: "space-evenly",
+  },
+  payPeriodContainer: {
+    marginBottom: 10,
   },
   heading: {
     fontSize: 25,
