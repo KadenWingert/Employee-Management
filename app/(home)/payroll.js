@@ -27,7 +27,7 @@ const payroll = () => {
   const onProfileClick = (employeeId) => {
     // Navigate to the payroll details screen with the selected employeeId
     router.push({
-      pathname: "/payrolldetails",
+      pathname: "/(home)/payrolldetails",
       params: { employeeId },
     });
     console.log("Employee ID on Payroll screen: " + employeeId);

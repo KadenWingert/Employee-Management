@@ -14,7 +14,6 @@ const payrolldetails = () => {
     const fetchEmployeeDetails = async () => {
       try {
         // Get the employeeId from the query parameters
-        console.log("Route parameters:", router.query);
         const { employeeId } = router.query;
 
         if (!employeeId) {
