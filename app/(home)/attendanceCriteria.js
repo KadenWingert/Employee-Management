@@ -8,7 +8,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const AttendanceCriteria = () => {
   const router = useRouter();
-  const [selectedSection, setSelectedSection] = useState(null);
+  const [cardStates, setCardStates] = useState(Array(5).fill(false));
 
   const sections = [
     {
@@ -43,10 +43,11 @@ const AttendanceCriteria = () => {
     },
   ];
 
-  const navigateToSection = (section) => {
-    setSelectedSection(section);
-    // You can implement navigation to each section here
-    console.log(`Navigating to ${section.title} section`);
+  const navigateToSection = (index) => {
+    const newCardStates = [...cardStates];
+    newCardStates[index] = !newCardStates[index];
+    setCardStates(newCardStates);
+    console.log(`Toggled card ${index}`);
   };
 
   return (
@@ -68,24 +69,28 @@ const AttendanceCriteria = () => {
           style={[
             styles.card,
             {
-              backgroundColor: section.secondaryColor,
+              backgroundColor: cardStates[index]
+                ? section.secondaryColor
+                : section.primaryColor,
               marginTop: 20,
               marginBottom: 10,
             },
           ]}
-          onPress={() => navigateToSection(section)}
+          onPress={() => navigateToSection(index)}
         >
           <View style={styles.sectionContainer}>
-            <Text style={styles.cardTitle}>{section.title}</Text>
+            <Text>
+              {cardStates[index] ? (
+                <Text style={styles.explanationText}>
+                  Explanation for {section.title} goes here.
+                </Text>
+              ) : (
+                <Text style={styles.cardTitle}>{section.title}</Text>
+              )}
+            </Text>
           </View>
         </TouchableOpacity>
       ))}
-
-      {selectedSection && (
-        <Text style={styles.explanationText}>
-          Explanation for {selectedSection.title} goes here.
-        </Text>
-      )}
     </View>
   );
 };
