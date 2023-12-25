@@ -108,10 +108,31 @@ const AttendanceCriteria = () => {
         >
           {/* Face Side */}
           <View
-            style={[styles.face, { backgroundColor: section.primaryColor, margin:'11%' }]}
+            style={[
+              styles.face,
+              {
+                backgroundColor: section.primaryColor,
+                margin: "11%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between", // Align items with space between them
+              },
+            ]}
           >
             <View style={styles.iconContainer}>{section.icon}</View>
-            <Text style={styles.cardTitle}>{section.title}</Text>
+            <Text
+              style={[
+                styles.cardTitle,
+                {
+                  backgroundColor: section.primaryColor,
+                  textAlign: "center",
+                  flex: 1,
+                  paddingRight: "13%",
+                },
+              ]}
+            >
+              {section.title}
+            </Text>
           </View>
           {/* Back Side */}
           <View
