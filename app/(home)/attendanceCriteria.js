@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  Ionicons,
+  MaterialIcons,
+  Fontisto,
+  FontAwesome,
+} from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Fontisto } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
+import FlipCard from "react-native-flip-card";
 
 const AttendanceCriteria = () => {
   const router = useRouter();
@@ -58,14 +61,18 @@ const AttendanceCriteria = () => {
     const newCardStates = [...cardStates];
     newCardStates[index] = !newCardStates[index];
     setCardStates(newCardStates);
-    console.log(`Toggled card ${index}`);
   };
 
   return (
     <ScrollView style={styles.container}>
       <Ionicons
         onPress={() => router.back()}
-        style={styles.backIcon}
+        style={{
+          marginLeft: 10,
+          marginTop: 10,
+          position: "absolute",
+          zIndex: 1,
+        }}
         name="arrow-back"
         size={24}
         color="black"
@@ -75,6 +82,7 @@ const AttendanceCriteria = () => {
       </View>
 
       {sections.map((section, index) => (
+        
         <TouchableOpacity
           key={index}
           style={[
@@ -89,14 +97,17 @@ const AttendanceCriteria = () => {
           ]}
           onPress={() => navigateToSection(index)}
         >
-          {cardStates[index] ? (
-            <Text style={styles.explanationText}>{section.about}</Text>
-          ) : (
-            <View style={styles.sectionContainer}>
+
+          <View style={styles.sectionContainer}>
+            {!cardStates[index] && (
               <View style={styles.iconContainer}>{section.icon}</View>
+            )}
+            {cardStates[index] ? (
+              <Text style={styles.explanationText}>{section.about}</Text>
+            ) : (
               <Text style={styles.cardTitle}>{section.title}</Text>
-            </View>
-          )}
+            )}
+          </View>
         </TouchableOpacity>
       ))}
     </ScrollView>
@@ -107,11 +118,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-  },
-  backIcon: {
-    marginLeft: 10,
-    marginTop: 10,
-    position: "absolute",
   },
   titleContainer: {
     alignItems: "center",
@@ -127,12 +133,12 @@ const styles = StyleSheet.create({
     padding: "11%",
     borderRadius: 10,
     elevation: 3,
+    justifyContent: "center", // Center content vertically
   },
   sectionContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    paddingRight: "10%",
+    justifyContent: "center", // Center content horizontally
   },
   iconContainer: {
     marginRight: 10,
@@ -143,7 +149,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   explanationText: {
-    marginTop: 20,
+    marginTop: 10,
     fontSize: 16,
     color: "black",
   },
