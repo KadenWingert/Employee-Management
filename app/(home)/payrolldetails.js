@@ -138,10 +138,11 @@ const PayrollDetails = () => {
                   {period.endDate}
                 </Text>
                 <Text style={(styles.dataColumn, styles.row3)}>
-                  {(
-                    employeeDetails.salary / 52 -
-                    (employeeDetails.salary / 52) * 0.13
-                  ).toFixed(2)}
+                  {employeeDetails &&
+                    (
+                      employeeDetails.salary / 52 -
+                      (employeeDetails.salary / 52) * 0.13
+                    ).toFixed(2)}
                 </Text>
                 <Text style={styles.dataColumn}>{period.compensation}</Text>
               </View>
