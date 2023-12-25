@@ -29,6 +29,7 @@ app.listen(port, () => {
 
 const Employee = require("./models/employee");
 const Attendance = require("./models/attendance");
+const TimeOff = require("./models/timeOff");
 
 //endpoint to register a employee
 app.post("/addEmployee", async (req, res) => {
@@ -241,6 +242,35 @@ app.get("/attendance-report-all-employees", async (req, res) => {
   } catch (error) {
     console.error("Error generating attendance report:", error);
     res.status(500).json({ message: "Error generating the report" });
+  }
+});
+
+
+
+// Endpoint to request time off
+app.post("/requestTimeOff", async (req, res) => {
+  try {
+    const { employeeId, dateRequested } = req.body;
+
+    // Validate the request body
+    if (!employeeId || !dateRequested) {
+      return res.status(400).json({ error: "Invalid request body" });
+    }
+
+    // Create a new time off request
+    const newTimeOff = new TimeOff({
+      employeeId,
+      dateRequested: new Date(dateRequested), // Assuming dateRequested is a valid date string
+    });
+
+    // Save the time off request to the database
+    await newTimeOff.save();
+
+    // Respond with success
+    res.status(201).json({ message: "Time off request created successfully" });
+  } catch (error) {
+    console.error("Error creating time off request:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

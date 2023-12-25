@@ -291,7 +291,7 @@ const index = () => {
                 justifyContent: "center",
                 flex: 1,
               }}
-              onPress={() => router.push("/(home)/attendanceCriteria")}
+              onPress={() => router.push("/(home)/timeOff")}
             >
               <View
                 style={{
@@ -305,7 +305,7 @@ const index = () => {
               >
                 <AntDesign name="clockcircleo" size={24} color="black" />
               </View>
-              <Text style={{ marginTop: 7 }}>Attendance Criteria</Text>
+              <Text style={{ marginTop: 7 }}>Request Time Off</Text>
             </Pressable>
           </View>
         </View>
