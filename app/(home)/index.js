@@ -180,7 +180,7 @@ const index = () => {
                   flex: 1,
                 }}
               >
-                View Reports
+                Analytics
               </Text>
               <View
                 style={{
@@ -246,13 +246,13 @@ const index = () => {
           <View
             style={{
               flex: 1,
-              marginTop: "5%",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 12,
+              margin: "3%",
+              marginTop: 15,
+              flexDirection: "column",
+              gap: "18%",
             }}
           >
-            <View
+            <Pressable
               style={{
                 backgroundColor: "#f79d00",
                 borderRadius: 6,
@@ -261,72 +261,7 @@ const index = () => {
                 justifyContent: "center",
                 flex: 1,
               }}
-            >
-              <Pressable
-                onPress={() => router.push("/(home)/attendanceCriteria")}
-              >
-                <View
-                  style={{
-                    width: 35,
-                    height: 35,
-                    borderRadius: 7,
-                    backgroundColor: "white",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <MaterialCommunityIcons
-                    name="guy-fawkes-mask"
-                    size={24}
-                    color="black"
-                  />
-                </View>
-              </Pressable>
-              <Text style={{ marginTop: 7 }}>Attendance Criteria</Text>
-            </View>
-            <View
-              style={{
-                backgroundColor: "#ABCABA",
-                borderRadius: 6,
-                padding: 12,
-                alignItems: "center",
-                justifyContent: "center",
-                flex: 1,
-              }}
-            >
-              <View
-                style={{
-                  width: 35,
-                  height: 35,
-                  borderRadius: 7,
-                  backgroundColor: "white",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Feather name="bar-chart" size={24} color="black" />
-              </View>
-              <Text style={{ marginTop: 7 }}>Increased Workflow</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: "5%",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 12,
-            }}
-          >
-            <View
-              style={{
-                backgroundColor: "#D3CCE3",
-                borderRadius: 6,
-                padding: 12,
-                alignItems: "center",
-
-                justifyContent: "center",
-                flex: 1,
-              }}
+              onPress={() => router.push("/(home)/attendanceCriteria")}
             >
               <View
                 style={{
@@ -344,17 +279,19 @@ const index = () => {
                   color="black"
                 />
               </View>
-              <Text style={{ marginTop: 7 }}>Cost Savings</Text>
-            </View>
-            <View
+              <Text style={{ marginTop: 7 }}>Attendance Criteria</Text>
+            </Pressable>
+
+            <Pressable
               style={{
-                backgroundColor: "#bdc3c7",
+                backgroundColor: "#ABCABA",
                 borderRadius: 6,
                 padding: 12,
                 alignItems: "center",
                 justifyContent: "center",
                 flex: 1,
               }}
+              onPress={() => router.push("/(home)/attendanceCriteria")}
             >
               <View
                 style={{
@@ -366,10 +303,10 @@ const index = () => {
                   justifyContent: "center",
                 }}
               >
-                <Feather name="bar-chart" size={24} color="black" />
+                <AntDesign name="clockcircleo" size={24} color="black" />
               </View>
-              <Text style={{ marginTop: 7 }}>Employee Performance</Text>
-            </View>
+              <Text style={{ marginTop: 7 }}>Attendance Criteria</Text>
+            </Pressable>
           </View>
         </View>
       </LinearGradient>

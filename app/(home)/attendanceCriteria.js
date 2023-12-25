@@ -82,19 +82,8 @@ const AttendanceCriteria = () => {
       </View>
 
       {sections.map((section, index) => (
-        //   onPress={() => navigateToSection(index)}
-        //           style={[
-        //     styles.card,
-        //     {
-        //       backgroundColor: cardStates[index]
-        //         ? section.secondaryColor
-        //         : section.primaryColor,
-        //       marginTop: 20,
-        //       marginBottom: 10,
-        //     },
-        //   ]}
-
         <FlipCard
+          key={index}
           style={[
             styles.card,
             {
