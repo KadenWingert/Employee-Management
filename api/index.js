@@ -245,8 +245,6 @@ app.get("/attendance-report-all-employees", async (req, res) => {
   }
 });
 
-
-
 // Endpoint to request time off
 app.post("/requestTimeOff", async (req, res) => {
   try {
