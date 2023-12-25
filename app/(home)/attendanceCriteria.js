@@ -57,11 +57,11 @@ const AttendanceCriteria = () => {
     },
   ];
 
-  const navigateToSection = (index) => {
-    const newCardStates = [...cardStates];
-    newCardStates[index] = !newCardStates[index];
-    setCardStates(newCardStates);
-  };
+  //   const navigateToSection = (index) => {
+  //     const newCardStates = [...cardStates];
+  //     newCardStates[index] = !newCardStates[index];
+  //     setCardStates(newCardStates);
+  //   };
 
   return (
     <ScrollView style={styles.container}>
@@ -82,9 +82,19 @@ const AttendanceCriteria = () => {
       </View>
 
       {sections.map((section, index) => (
-        
-        <TouchableOpacity
-          key={index}
+        //   onPress={() => navigateToSection(index)}
+        //           style={[
+        //     styles.card,
+        //     {
+        //       backgroundColor: cardStates[index]
+        //         ? section.secondaryColor
+        //         : section.primaryColor,
+        //       marginTop: 20,
+        //       marginBottom: 10,
+        //     },
+        //   ]}
+
+        <FlipCard
           style={[
             styles.card,
             {
@@ -95,20 +105,28 @@ const AttendanceCriteria = () => {
               marginBottom: 10,
             },
           ]}
-          onPress={() => navigateToSection(index)}
         >
-
-          <View style={styles.sectionContainer}>
-            {!cardStates[index] && (
-              <View style={styles.iconContainer}>{section.icon}</View>
-            )}
-            {cardStates[index] ? (
-              <Text style={styles.explanationText}>{section.about}</Text>
-            ) : (
-              <Text style={styles.cardTitle}>{section.title}</Text>
-            )}
+          {/* Face Side */}
+          <View
+            style={[styles.face, { backgroundColor: section.primaryColor, margin:'11%' }]}
+          >
+            <View style={styles.iconContainer}>{section.icon}</View>
+            <Text style={styles.cardTitle}>{section.title}</Text>
           </View>
-        </TouchableOpacity>
+          {/* Back Side */}
+          <View
+            style={[
+              styles.back,
+              {
+                backgroundColor: section.secondaryColor,
+                padding: 10,
+                flex: 1, // Ensure the back view takes the entire space
+              },
+            ]}
+          >
+            <Text style={styles.explanationText}>{section.about}</Text>
+          </View>
+        </FlipCard>
       ))}
     </ScrollView>
   );
@@ -130,7 +148,6 @@ const styles = StyleSheet.create({
   },
   card: {
     marginHorizontal: 10,
-    padding: "11%",
     borderRadius: 10,
     elevation: 3,
     justifyContent: "center", // Center content vertically
